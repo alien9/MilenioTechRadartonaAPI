@@ -6,13 +6,44 @@
     ViewData["Title"] = "Registrar";
 }
 
-<main class="container mt-5 pt-5">
+            <form asp-route-returnUrl="@Model.ReturnUrl" method="post" class="w3-container w3-card-4">
+                <h2>Registro</h2>
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="w3-section">
+                    <input class="w3-input" type="text" required="" asp-for="Input.Nome">
+                    <label asp-for="Input.Nome">Name</label>
+                    <span asp-validation-for="Input.Nome" autocomplete="off" class="text-danger"></span>
+                </div>
+                <div class="w3-section">
+                    <input asp-for="Input.Email" class="w3-input" type="text" required="">
+                    <label asp-for="Input.Email">Email</label>
+                    <span asp-validation-for="Input.Email" autocomplete="off" class="text-danger"></span>
+                </div>
+                <div class="w3-section">
+                    <input asp-for="Input.Celular" id="celular" class="w3-input" type="text" required="">
+                    <label asp-for="Input.Celular"></label>
+                    <span asp-validation-for="Input.Celular" class="text-danger"></span>
+                </div>
 
-    <div class="row mt-5 mb-5">
-        <div class="col-md-12 col-lg-4">
-
-            <h1 class="text-center display-3">Registro</h1>
-            <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <div class="w3-section">
+                    <input asp-for="Input.Password" class="w3-input" type="password" required="">
+                    <label asp-for="Input.Password"></label>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="w3-section">
+                    <input asp-for="Input.ConfirmPassword" class="w3-input" type="password" required="">
+                    <label asp-for="Input.ConfirmPassword"></label>
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div class="w3-center">
+                    <br>
+                    <button class="w3-btn w3-theme" type="reset">Reset</button>
+                    <button class="w3-btn w3-theme" type="submit">Enviar</button>
+                    <br>
+                </div>
+                <hr>
+            </form>
+            <form asp-route-returnUrl="@Model.ReturnUrl" method="post" style="display:none">
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
@@ -42,9 +73,6 @@
                 </div>
                 <button type="submit" class="btn-dark border text-light w-100 p-3">Registrar Conta</button>
             </form>
-        </div>
-    </div>
-</main>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

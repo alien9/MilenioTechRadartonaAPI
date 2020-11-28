@@ -7,392 +7,264 @@
 
 }
 
-<link rel="stylesheet" href="~/css/intra.css">
-<link rel="stylesheet" href="~/intra/icons/style.css">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-<style>
-    body {
-        background-color:white;
-    }
-
-    #fundao {
-        position: relative;
-        top: 95px !important;
-        background: #0b0c1f;
-        padding-bottom: 20px;
-    }
-
-    .labelAzul {
-        background: #01037c;
-        border-radius: 10px;
-        padding: 3px;
-        color: #ffffff;
-        text-transform: capitalize;
-    }
-
-        .labelAzul:hover {
-            background: #00013b;
-            color: #fff;
-        }
-
-    .divzinhaRolagem {
-        overflow-y: scroll;
-        overflow-x: scroll;
-        min-height: 300px;
-    }
-
-        .divzinhaRolagem > ul {
-            list-style: none;
-        }
-
-    ::-webkit-scrollbar {
-        width: 12px;
-    }
-
-    ::-webkit-scrollbar-button {
-        display: none;
-    }
-
-    ::-webkit-scrollbar-track-piece {
-        background: #fff;
-        border-radius: 5px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-        margin: 2px;
-        background: #0542c5;
-        border-radius: 5px;
-    }
-
-    ::-webkit-resizer {
-        background: #0542c5;
-        border-radius: 5px;
-    }
-
-    #map, #map2 {
-        height: 400px; /* The height is 400 pixels */
-        width: 100%; /* The width is the width of the web page */
-    }
-
-    ::-webkit-input-placeholder {
-        text-align: center;
-    }
-
-
-    :-moz-placeholder { /* Firefox 18- */
-       text-align: center;  
-    }
-
-    ::-moz-placeholder {  /* Firefox 19+ */
-       text-align: center;  
-    }
-
-    :-ms-input-placeholder {  
-       text-align: center; 
-    }
-</style>
-
-<div class="container mt-2" id="fundao">
-    <div class="row mt-2 ml-1">
-        <div class="col-12 col-md-9 bg-light rounded" style="min-height: 250px;">
-            <div class="tab-content" id="nav-tabContent">
-
-
-                <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
-                    <h2 class="text-center display-4 border-bottom mb-2 border-dark">Perfil</h2>
-                    <form class="m-4">
-                        <div class="form-group row">
-                            <label for="email" class="w-25 mt-2 text-center float-left labelAzul col-sm-2 col-form-label">Nome</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control-plaintext" id="nomePerfil" value="@(ViewData["nome"] as string)">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="celular" class="w-25 mt-2 text-center float-left labelAzul col-sm-2 col-form-label">Celular</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control-plaintext" id="celularPerfil" value="@(ViewData["celular"] as string)">
-                            </div>
-                        </div>
-                    </form>
-                    <button id="mudaPerfil" class="btn w-100 mt-5 mb-2 labelAzul">Salvar Alterações</button>
-                </div>
-
-                <div class="tab-pane fade m-2" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
-                    <h2 class="text-center display-4 border-bottom mb-2 border-dark">Token</h2>
-                    <div class="divzinhaRolagem">
-                        <table class="table table-striped">
-                            <thead class="bg-primary">
-                                <tr>
-                                    <th class="text-center text-light" scope="col">#</th>
-                                    <th class="text-center text-light" scope="col">token</th>
-                                    <th class="text-center text-light" scope="col">Copiar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th class="text-center" scope="row">1</th>
-                                    <td class="text-center" style="width: 450px!important;">
-                                        <textarea id="token" class="w-100">@(ViewData["Token"] as string)</textarea>
-                                    </td>
-                                    <td class="text-center"><button id="copiar" class="btn btn-primary w-100"><span class="icon-file_copy" /></button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="tab-pane fade m-2" id="list-loc-rad" role="tabpanel" aria-labelledby="list-loc-rad-list">
-                    <h2 class="text-center display-4 border-bottom mb-2 border-dark">Localização Radares</h2>
-                    <div class="divzinhaRolagem">
-
-                        <div id="map"></div>
-
-                    </div>
-                </div>
-
-                <div class="tab-pane fade m-2" id="list-loc-rad-enq" role="tabpanel" aria-labelledby="list-loc-rad-enq-list">
-                    <h2 class="text-center display-4 border-bottom mb-2 border-dark">Localização Radares Por Enquadramento</h2>
-                    <div class="divzinhaRolagem">
-
-                        <div id="map2"></div>
-                        <select id="enqSelec" class="form-control mb-2 mt-1">
-                            <optgroup label="Enquadramento">
-                                <option value="A">A</option>
-                                <option value="C">C</option>
-                                <option value="CP">CP</option>
-                                <option value="EX">EX</option>
-                                <option value="F">F</option>
-                                <option value="MOTO">MOTO</option>
-                                <option value="P">P</option>
-                                <option value="PR">PR</option>
-                                <option value="R">R</option>
-                                <option value="V">V</option>
-                                <option value="VER">VER</option>
-                                <option value="VR">VR</option>
-                                <option value="Z">Z</option>
-                            </optgroup>
-                        </select>
-
-                        <button id="buscarPorEnquadramento" class="btn btn-primary w-100">Buscar Por Enquadramento</button>
-                    </div>
-                </div>
-                <div class="tab-pane fade m-2" id="list-relatorios" role="tabpanel" aria-labelledby="list-relatorios-list">
-                    <h2 class="text-center display-4 border-bottom mb-2 border-dark">Relatórios</h2>
-                    <div class="divzinhaRolagem">
-                        @{
-                            if (erro != null)
-                            {
-                                <div class="alert alert-danger text-center w-100">@(erro)<br><a target="_blank" href="https://app.swaggerhub.com/apis-docs/willianchan/API_Milenio_Bus_Radartona/1.0.0-oas3#/0">Clique Aqui Para Ler a Nossa Documentação</a></div>
-                            }
-                        }
-                        <table class="table table-striped">
-                            <thead class="bg-primary">
-                                <tr>
-                                    <th class="text-center text-light" scope="col">Endpoint</th>
-                                    <th class="text-center text-light" scope="col">Descrição</th>
-                                    <th class="text-center text-light" scope="col">Opcões</th>
-                                    <th class="text-center text-light" scope="col">Download</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="text-center" scope="row">/v1/GetLocalizacaoRadares</td>
-                                    <td class="text-center" scope="row">Todos os radares cadastrados</td>
-                                    <td class="text-center" scope="row">Sem Opções</td>
-                                    <td class="text-center" scope="row"><a target="_self" class="w-100 btn btn-primary text-center" href="@Url.Action("GetLocalizacaoRadaresCSV", "Radartona")">CSV</a></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center" scope="row">/v1/GetRadaresTipoEnquadramento</td>
-                                    <td class="text-center" scope="row">Radares por tipo de enquadramento</td>
-                                    <td class="text-center" scope="row">
-                                        Enquadramento:
-                                        <select id="enquadramento-val">
-                                            <option value="V">V</option>
-                                            <option value="R">R</option>
-                                            <option value="F">F</option>
-                                            <option value="A">A</option>
-                                            <option value="P">P</option>
-                                            <option value="VER">VER</option>
-                                            <option value="Z">Z</option>
-                                            <option value="PR">PR</option>
-                                            <option value="C">C</option>
-                                            <option value="EX">EX</option>
-                                            <option value="VR">VR</option>
-                                            <option value="MOTO">Moto</option>
-                                            <option value="CP">CP</option>
-                                        </select>
-                                    </td>
-                                    <td class="text-center" scope="row"><button class="w-100 btn btn-primary text-center" id="csv-enq-radares">CSV</button></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center" scope="row">/v1/GetRadaresLote</td>
-                                    <td class="text-center" scope="row">Get de radares por lotes</td>
-                                    <td class="text-center" scope="row">
-                                        Lote:
-                                        <select id="lote-val">
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                        </select>
-                                    </td>
-                                    <td class="text-center" scope="row"><button class="w-100 btn btn-primary text-center" id="csv-lot-radares">CSV</button></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center" scope="row">/v1/GetFluxoVeiculosRadares</td>
-                                    <td class="text-center" scope="row">Fluxo de veículos de cada radar, em um determinado dia</td>
-                                    <td class="text-center" scope="row">
-                                        Radares:
-                                        <input id="radaresFluxo" type="text" placeholder="1111,5555,0000" />
-                                        <BR>
-                                        Data:
-                                        <input id="dataFluxo" type="text" placeholder="yyyy-MM-dd" maxlength="10" />
-                                    </td>
-                                    <td class="text-center" scope="row"><button class="w-100 btn btn-primary text-center" id="csv-fluxo-radares">CSV</button></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center" scope="row">/v1/GetTipoVeiculosRadares</td>
-                                    <td class="text-center" scope="row">Tipo de veículos que passaram pelos radares, em um determinado dia</td>
-                                    <td class="text-center" scope="row">
-                                        Radares:
-                                        <input id="radaresTipoVeiculos" type="text" placeholder="1111,5555,0000" />
-                                        <BR>
-                                        Data:
-                                        <input id="dataTipoVeiculosRadares" type="text" placeholder="yyyy-MM-dd" maxlength="10" />
-                                    </td>
-                                    <td class="text-center" scope="row"><button class="w-100 btn btn-primary text-center" id="csv-tipo-veiculos-radares">CSV</button></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center" scope="row">/v1/GetInfracoesRadares</td>
-                                    <td class="text-center" scope="row">Número de infrações em radares, em um determinado dia</td>
-                                    <td class="text-center" scope="row">
-                                        Radares:
-                                        <input id="radaresInfracoes" type="text" placeholder="1111,5555,0000" />
-                                        <BR>
-                                        Data:
-                                        <input id="dataInfracoesRadares" type="text" placeholder="yyyy-MM-dd" maxlength="10" />
-                                    </td>
-                                    <td class="text-center" scope="row"><button class="w-100 btn btn-primary text-center" id="csv-infracoes-radares">CSV</button></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center" scope="row">/v1/GetAcuraciaIdentificacaoRadares</td>
-                                    <td class="text-center" scope="row">Acurácia de identificação de placas dos radares, em um determinado dia</td>
-                                    <td class="text-center" scope="row">
-                                        Radares:
-                                        <input id="radaresAcuracia" type="text" placeholder="1111,5555,0000" />
-                                        <BR>
-                                        Data:
-                                        <input id="dataAcuraciaRadares" type="text" placeholder="yyyy-MM-dd" maxlength="10" />
-                                    </td>
-                                    <td class="text-center" scope="row"><button class="w-100 btn btn-primary text-center" id="csv-acuracia-radares">CSV</button></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center" scope="row">/v1/GetPerfilVelocidadesRadar</td>
-                                    <td class="text-center" scope="row">Radares, por perfil de velocidade (mínima e máxima)</td>
-                                    <td class="text-center" scope="row">
-                                        Velelocidade Mínima:
-                                        <input id="radaresPerfilVelocidadeMin" type="number" min="1" max="100" placeholder="1"/>
-                                        <br>
-                                        Velocidade Máxima:
-                                        <input id="radaresPerfilVelocidadeMax" type="number" min="1" max="100" placeholder="100"/>
-                                    </td>
-                                    <td class="text-center" scope="row"><button class="w-100 btn btn-primary text-center" id="csv-perfil-velocidade-radares">CSV</button></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center" scope="row">/v1/GetTrajetos</td>
-                                    <td class="text-center" scope="row">(FEATURE) Velocidades médias detectadas nos radares, separados por período de manha, tarde, noite e madrugada</td>
-                                    <td class="text-center" scope="row">
-                                        Radares:
-                                        <input id="radaresTrajetos" type="text" placeholder="1111,5555,0000" />
-                                        <BR>
-                                        Data:
-                                        <input id="dataTrajetosRadares" type="text" placeholder="yyyy-MM-dd" maxlength="10" />
-                                    </td>
-                                    <td class="text-center" scope="row"><button class="w-100 btn btn-primary text-center" id="csv-trajetos-radares">CSV</button></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center" scope="row">/v1/GetVelocidadeMediaTrajeto</td>
-                                    <td class="text-center" scope="row">(FEATURE) Velocidade média dos trajetos executados no dia</td>
-                                    <td class="text-center" scope="row">
-                                        Radares:
-                                        <input id="radaresVelMediaTrajetos" type="text" placeholder="1111,5555,0000" />
-                                        <BR>
-                                        Data:
-                                        <input id="dataVelMediaTrajetosRadares" type="text" placeholder="yyyy-MM-dd" maxlength="10" />
-                                    </td>
-                                    <td class="text-center" scope="row"><button class="w-100 btn btn-primary text-center" id="csv-vel-media-trajetos-radares">CSV</button></td>
-
-                                </tr>
-                                <tr>
-                                    <td class="text-center" scope="row">/v1/GetViagens</td>
-                                    <td class="text-center" scope="row">Todas as viagens ocorridas no dia, em todos os radares</td>
-                                    <td class="text-center" scope="row">
-                                        Radares:
-                                        <input id="radaresViagens" type="text" placeholder="1111,5555,0000" />
-                                        <BR>
-                                        Data:
-                                        <input id="dataViagensRadares" type="text" placeholder="yyyy-MM-dd" maxlength="10" />
-                                    </td>
-                                    <td class="text-center" scope="row"><button class="w-100 btn btn-primary text-center" id="csv-viagens-radares">CSV</button></td>
-
-                                </tr>
-                                <tr>
-                                    <td class="text-center" scope="row">/v1/GetDistanciaViagem</td>
-                                    <td class="text-center" scope="row">Distância de todas as viagens ocorridas no dia, por diferença de distância entre os radares</td>
-                                    <td class="text-center" scope="row">
-                                        Radar Inicial:
-                                        <input id="radarInicial" type="text" maxlength="4" placeholder="1111"/>
-                                        <br>
-                                        Radar Final:
-                                        <input id="radarFinal" type="text" maxlength="4" placeholder="2222"/>
-                                    </td>
-                                    <td class="text-center" scope="row"><button class="w-100 btn btn-primary text-center" id="csv-dist-viagens-radares">CSV</button></td>
-
-                                </tr>
-                            </tbody>
-                        </table>
-                        <p class="text-center w-100 border boder-dark rounded p-2 mt-2">
-                            OBS: Atente-se para inserir apenas valores válidos e existentes em nossa base de dados.
-                        </p>
-                    </div>
-
-                </div>
+<div id="perfil" class="w3-container city w3-animate-opacity">
+    <h2 class="text-center display-4 border-bottom mb-2 border-dark">Perfil</h2>
+    <form class="m-4">
+        <div class="form-group row">
+            <label for="email" class="w-25 mt-2 text-center float-left labelAzul col-sm-2 col-form-label">Nome</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control-plaintext" id="nomePerfil" value="@(ViewData["nome"] as string)">
             </div>
         </div>
-
-
-        <div class="col-12 col-md-3 mt-3">
-            <div class="col-12 menu-letreiro">
-                <p class="text-light bg-primary text-center rounded border border-light p-1">Menu</p>
-            </div>
-            <div class="list-group" id="list-tab" role="tablist">
-                <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list"
-                   href="#list-home" role="tab" aria-controls="home">Perfil</a>
-                <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list"
-                   href="#list-profile" role="tab" aria-controls="profile">Token</a>
-
-                <a class="list-group-item list-group-item-action" id="list-relatorios-list" data-toggle="list"
-                   href="#list-relatorios" role="tab" aria-controls="profile">Relatórios</a>
-
-                <a class="list-group-item list-group-item-action" id="list-loc-rad-list" data-toggle="list"
-                   href="#list-loc-rad" role="tab" aria-controls="loc-rad">Localização Radares</a>
-
-                <a class="list-group-item list-group-item-action" id="list-loc-rad-enq-list" data-toggle="list"
-                   href="#list-loc-rad-enq" role="tab" aria-controls="loc-rad-enq">Radares Por Enquadramento</a>
-
+        <div class="form-group row">
+            <label for="celular" class="w-25 mt-2 text-center float-left labelAzul col-sm-2 col-form-label">Celular</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control-plaintext" id="celularPerfil" value="@(ViewData["celular"] as string)">
             </div>
         </div>
+    </form>
+    <button id="mudaPerfil" class="btn w-100 mt-5 mb-2 labelAzul">Salvar Alterações</button>
+</div>
+
+<div id="token" class="w3-container city w3-animate-opacity">
+    <h2 class="text-center display-4 border-bottom mb-2 border-dark">Token</h2>
+    <div class="divzinhaRolagem">
+        <table class="table table-striped">
+            <thead class="bg-primary">
+                <tr>
+                    <th class="text-center text-light" scope="col">#</th>
+                    <th class="text-center text-light" scope="col">token</th>
+                    <th class="text-center text-light" scope="col">Copiar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th class="text-center" scope="row">1</th>
+                    <td class="text-center" style="width: 450px!important;">
+                        <textarea id="token" class="w-100">@(ViewData["Token"] as string)</textarea>
+                    </td>
+                    <td class="text-center"><button id="copiar" class="btn btn-primary w-100"><span class="icon-file_copy" /></button></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
-<footer class="container-fluid w-100 escuro">
+<div id="locais" class="w3-container city w3-animate-opacity">
+    <h2 class="text-center display-4 border-bottom mb-2 border-dark">Localização Radares</h2>
+    <div class="divzinhaRolagem">
+        <div id="map" style="height:200px;"></div>
+    </div>
+</div>
 
-</footer>
+<div id="enquad" class="w3-container city w3-animate-opacity">
+    <h2 class="text-center display-4 border-bottom mb-2 border-dark">Localização Radares Por Enquadramento</h2>
+    <div class="divzinhaRolagem">
 
+        <div id="map2" style=" height:200px;"></div>
+        <select id="enqSelec" class="form-control mb-2 mt-1">
+            <optgroup label="Enquadramento">
+                <option value="A">A</option>
+                <option value="C">C</option>
+                <option value="CP">CP</option>
+                <option value="EX">EX</option>
+                <option value="F">F</option>
+                <option value="MOTO">MOTO</option>
+                <option value="P">P</option>
+                <option value="PR">PR</option>
+                <option value="R">R</option>
+                <option value="V">V</option>
+                <option value="VER">VER</option>
+                <option value="VR">VR</option>
+                <option value="Z">Z</option>
+            </optgroup>
+        </select>
 
+        <button id="buscarPorEnquadramento" class="btn btn-primary w-100">Buscar Por Enquadramento</button>
+    </div>
+</div>
+<div id="relatorios" class="w3-container city w3-animate-opacity">
+    <h2 class="text-center display-4 border-bottom mb-2 border-dark">Relatórios</h2>
+    <div class="divzinhaRolagem">
+        @{
+            if (erro != null)
+            {
+                <div class="alert alert-danger text-center w-100">@(erro)<br><a target="_blank" href="https://app.swaggerhub.com/apis-docs/willianchan/API_Milenio_Bus_Radartona/1.0.0-oas3#/0">Clique Aqui Para Ler a Nossa Documentação</a></div>
+            }
+        }
+        <table class="table table-striped">
+            <thead class="bg-primary">
+                <tr>
+                    <th class="text-center text-light" scope="col">Endpoint</th>
+                    <th class="text-center text-light" scope="col">Descrição</th>
+                    <th class="text-center text-light" scope="col">Opcões</th>
+                    <th class="text-center text-light" scope="col">Download</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-center" scope="row">/v1/GetLocalizacaoRadares</td>
+                    <td class="text-center" scope="row">Todos os radares cadastrados</td>
+                    <td class="text-center" scope="row">Sem Opções</td>
+                    <td class="text-center" scope="row"><a target="_self" class="w-100 btn btn-primary text-center" href="@Url.Action("GetLocalizacaoRadaresCSV", "Radartona")">CSV</a></td>
+                </tr>
+                <tr>
+                    <td class="text-center" scope="row">/v1/GetRadaresTipoEnquadramento</td>
+                    <td class="text-center" scope="row">Radares por tipo de enquadramento</td>
+                    <td class="text-center" scope="row">
+                        Enquadramento:
+                        <select id="enquadramento-val">
+                            <option value="V">V</option>
+                            <option value="R">R</option>
+                            <option value="F">F</option>
+                            <option value="A">A</option>
+                            <option value="P">P</option>
+                            <option value="VER">VER</option>
+                            <option value="Z">Z</option>
+                            <option value="PR">PR</option>
+                            <option value="C">C</option>
+                            <option value="EX">EX</option>
+                            <option value="VR">VR</option>
+                            <option value="MOTO">Moto</option>
+                            <option value="CP">CP</option>
+                        </select>
+                    </td>
+                    <td class="text-center" scope="row"><button class="w-100 btn btn-primary text-center" id="csv-enq-radares">CSV</button></td>
+                </tr>
+                <tr>
+                    <td class="text-center" scope="row">/v1/GetRadaresLote</td>
+                    <td class="text-center" scope="row">Get de radares por lotes</td>
+                    <td class="text-center" scope="row">
+                        Lote:
+                        <select id="lote-val">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </td>
+                    <td class="text-center" scope="row"><button class="w-100 btn btn-primary text-center" id="csv-lot-radares">CSV</button></td>
+                </tr>
+                <tr>
+                    <td class="text-center" scope="row">/v1/GetFluxoVeiculosRadares</td>
+                    <td class="text-center" scope="row">Fluxo de veículos de cada radar, em um determinado dia</td>
+                    <td class="text-center" scope="row">
+                        Radares:
+                        <input id="radaresFluxo" type="text" placeholder="1111,5555,0000" />
+                        <BR>
+                        Data:
+                        <input id="dataFluxo" type="text" placeholder="yyyy-MM-dd" maxlength="10" />
+                    </td>
+                    <td class="text-center" scope="row"><button class="w-100 btn btn-primary text-center" id="csv-fluxo-radares">CSV</button></td>
+                </tr>
+                <tr>
+                    <td class="text-center" scope="row">/v1/GetTipoVeiculosRadares</td>
+                    <td class="text-center" scope="row">Tipo de veículos que passaram pelos radares, em um determinado dia</td>
+                    <td class="text-center" scope="row">
+                        Radares:
+                        <input id="radaresTipoVeiculos" type="text" placeholder="1111,5555,0000" />
+                        <BR>
+                        Data:
+                        <input id="dataTipoVeiculosRadares" type="text" placeholder="yyyy-MM-dd" maxlength="10" />
+                    </td>
+                    <td class="text-center" scope="row"><button class="w-100 btn btn-primary text-center" id="csv-tipo-veiculos-radares">CSV</button></td>
+                </tr>
+                <tr>
+                    <td class="text-center" scope="row">/v1/GetInfracoesRadares</td>
+                    <td class="text-center" scope="row">Número de infrações em radares, em um determinado dia</td>
+                    <td class="text-center" scope="row">
+                        Radares:
+                        <input id="radaresInfracoes" type="text" placeholder="1111,5555,0000" />
+                        <BR>
+                        Data:
+                        <input id="dataInfracoesRadares" type="text" placeholder="yyyy-MM-dd" maxlength="10" />
+                    </td>
+                    <td class="text-center" scope="row"><button class="w-100 btn btn-primary text-center" id="csv-infracoes-radares">CSV</button></td>
+                </tr>
+                <tr>
+                    <td class="text-center" scope="row">/v1/GetAcuraciaIdentificacaoRadares</td>
+                    <td class="text-center" scope="row">Acurácia de identificação de placas dos radares, em um determinado dia</td>
+                    <td class="text-center" scope="row">
+                        Radares:
+                        <input id="radaresAcuracia" type="text" placeholder="1111,5555,0000" />
+                        <BR>
+                        Data:
+                        <input id="dataAcuraciaRadares" type="text" placeholder="yyyy-MM-dd" maxlength="10" />
+                    </td>
+                    <td class="text-center" scope="row"><button class="w-100 btn btn-primary text-center" id="csv-acuracia-radares">CSV</button></td>
+                </tr>
+                <tr>
+                    <td class="text-center" scope="row">/v1/GetPerfilVelocidadesRadar</td>
+                    <td class="text-center" scope="row">Radares, por perfil de velocidade (mínima e máxima)</td>
+                    <td class="text-center" scope="row">
+                        Velelocidade Mínima:
+                        <input id="radaresPerfilVelocidadeMin" type="number" min="1" max="100" placeholder="1" />
+                        <br>
+                        Velocidade Máxima:
+                        <input id="radaresPerfilVelocidadeMax" type="number" min="1" max="100" placeholder="100" />
+                    </td>
+                    <td class="text-center" scope="row"><button class="w-100 btn btn-primary text-center" id="csv-perfil-velocidade-radares">CSV</button></td>
+                </tr>
+                <tr>
+                    <td class="text-center" scope="row">/v1/GetTrajetos</td>
+                    <td class="text-center" scope="row">(FEATURE) Velocidades médias detectadas nos radares, separados por período de manha, tarde, noite e madrugada</td>
+                    <td class="text-center" scope="row">
+                        Radares:
+                        <input id="radaresTrajetos" type="text" placeholder="1111,5555,0000" />
+                        <BR>
+                        Data:
+                        <input id="dataTrajetosRadares" type="text" placeholder="yyyy-MM-dd" maxlength="10" />
+                    </td>
+                    <td class="text-center" scope="row"><button class="w-100 btn btn-primary text-center" id="csv-trajetos-radares">CSV</button></td>
+                </tr>
+                <tr>
+                    <td class="text-center" scope="row">/v1/GetVelocidadeMediaTrajeto</td>
+                    <td class="text-center" scope="row">(FEATURE) Velocidade média dos trajetos executados no dia</td>
+                    <td class="text-center" scope="row">
+                        Radares:
+                        <input id="radaresVelMediaTrajetos" type="text" placeholder="1111,5555,0000" />
+                        <BR>
+                        Data:
+                        <input id="dataVelMediaTrajetosRadares" type="text" placeholder="yyyy-MM-dd" maxlength="10" />
+                    </td>
+                    <td class="text-center" scope="row"><button class="w-100 btn btn-primary text-center" id="csv-vel-media-trajetos-radares">CSV</button></td>
 
+                </tr>
+                <tr>
+                    <td class="text-center" scope="row">/v1/GetViagens</td>
+                    <td class="text-center" scope="row">Todas as viagens ocorridas no dia, em todos os radares</td>
+                    <td class="text-center" scope="row">
+                        Radares:
+                        <input id="radaresViagens" type="text" placeholder="1111,5555,0000" />
+                        <BR>
+                        Data:
+                        <input id="dataViagensRadares" type="text" placeholder="yyyy-MM-dd" maxlength="10" />
+                    </td>
+                    <td class="text-center" scope="row"><button class="w-100 btn btn-primary text-center" id="csv-viagens-radares">CSV</button></td>
 
+                </tr>
+                <tr>
+                    <td class="text-center" scope="row">/v1/GetDistanciaViagem</td>
+                    <td class="text-center" scope="row">Distância de todas as viagens ocorridas no dia, por diferença de distância entre os radares</td>
+                    <td class="text-center" scope="row">
+                        Radar Inicial:
+                        <input id="radarInicial" type="text" maxlength="4" placeholder="1111" />
+                        <br>
+                        Radar Final:
+                        <input id="radarFinal" type="text" maxlength="4" placeholder="2222" />
+                    </td>
+                    <td class="text-center" scope="row"><button class="w-100 btn btn-primary text-center" id="csv-dist-viagens-radares">CSV</button></td>
+
+                </tr>
+            </tbody>
+        </table>
+        <p class="text-center w-100 border boder-dark rounded p-2 mt-2">
+            OBS: Atente-se para inserir apenas valores válidos e existentes em nossa base de dados.
+        </p>
+    </div>
+
+</div>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -666,7 +538,7 @@
 
         }
 
-        $("#list-loc-rad-list").click(function () {
+        $("#locais-bt").click(function () {
 
             $.ajax({
                 url: "@Url.Action("GetLocalizacaoRadares", "Radartona")",
@@ -718,10 +590,8 @@
 
 
         /* radares tipo equipamento */
-        $("#buscarPorEnquadramento").click(function () {
-
+        $("#enquad-bt").click(function () {
             var enquadramentoSelec = $("#enqSelec").val();
-
         $.ajax({
             url: "@Url.Action("GetRadaresTipoEnquadramento", "Radartona")",
             type: "GET",
@@ -782,7 +652,7 @@
 
 
     function initMap() {
-
+        console.log('cria mapa');
         centro = { lat: -23.574467, lng: -46.623698 };
          
         map = new google.maps.Map(document.getElementById('map'), {
