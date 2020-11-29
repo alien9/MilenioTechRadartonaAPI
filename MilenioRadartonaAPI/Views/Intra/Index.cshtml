@@ -62,39 +62,38 @@
     </div>
 </div>
 
-<div id="locais" class="w3-container city w3-animate-opacity">
-    <h2 class="text-center display-4 border-bottom mb-2 border-dark">Localização Radares</h2>
-    <div class="divzinhaRolagem">
+<div id="locais" class="w3-container city w3-animate-opacity" style="height:100%">
+    <h2 id="cabecinha" class="text-center display-4 border-bottom mb-2 border-dark">Localização Radares</h2>
         <div id="map" style="height:200px;"></div>
-    </div>
 </div>
 
 <div id="enquad" class="w3-container city w3-animate-opacity">
-    <h2 class="text-center display-4 border-bottom mb-2 border-dark">Localização Radares Por Enquadramento</h2>
-    <div class="divzinhaRolagem">
+    <h2 id="cabecinha2" class="text-center display-4 border-bottom mb-2 border-dark">Localização Radares Por Enquadramento</h2>
 
         <div id="map2" style=" height:200px;"></div>
-        <select id="enqSelec" class="form-control mb-2 mt-1">
-            <optgroup label="Enquadramento">
-                <option value="A">A</option>
-                <option value="C">C</option>
-                <option value="CP">CP</option>
-                <option value="EX">EX</option>
-                <option value="F">F</option>
-                <option value="MOTO">MOTO</option>
-                <option value="P">P</option>
-                <option value="PR">PR</option>
-                <option value="R">R</option>
-                <option value="V">V</option>
-                <option value="VER">VER</option>
-                <option value="VR">VR</option>
-                <option value="Z">Z</option>
-            </optgroup>
-        </select>
+        <div class="w3-row" id="seletorzinho">
+            <select id="enqSelec" class="form-control mb-2 mt-1">
+                <optgroup label="Enquadramento">
+                    <option value="A">A</option>
+                    <option value="C">C</option>
+                    <option value="CP">CP</option>
+                    <option value="EX">EX</option>
+                    <option value="F">F</option>
+                    <option value="MOTO">MOTO</option>
+                    <option value="P">P</option>
+                    <option value="PR">PR</option>
+                    <option value="R">R</option>
+                    <option value="V">V</option>
+                    <option value="VER">VER</option>
+                    <option value="VR">VR</option>
+                    <option value="Z">Z</option>
+                </optgroup>
+            </select>
 
-        <button id="buscarPorEnquadramento" class="btn btn-primary w-100">Buscar Por Enquadramento</button>
+            <button id="buscarPorEnquadramento" class="btn btn-primary w-100">Buscar Por Enquadramento</button>
+        </div>
     </div>
-</div>
+
 <div id="relatorios" class="w3-container city w3-animate-opacity">
     <h2 class="text-center display-4 border-bottom mb-2 border-dark">Relatórios</h2>
     <div class="divzinhaRolagem">
@@ -104,7 +103,7 @@
                 <div class="alert alert-danger text-center w-100">@(erro)<br><a target="_blank" href="https://app.swaggerhub.com/apis-docs/willianchan/API_Milenio_Bus_Radartona/1.0.0-oas3#/0">Clique Aqui Para Ler a Nossa Documentação</a></div>
             }
         }
-        <table class="table table-striped">
+        <table class="w3-table w3-striped w3-bordered">
             <thead class="bg-primary">
                 <tr>
                     <th class="text-center text-light" scope="col">Endpoint</th>
