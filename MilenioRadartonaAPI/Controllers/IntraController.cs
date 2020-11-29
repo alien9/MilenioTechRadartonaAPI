@@ -28,19 +28,24 @@ namespace MilenioRadartonaAPI.Controllers
                 var usuario = _ctx.Usuarios.Where(u => u.Email.Equals(email))
                      .Include(u => u.Chave)
                      .FirstOrDefault();
-
-                ViewData["Token"] = usuario.Chave.Token;
-                ViewData["Nome"] = usuario.Nome;
-                ViewData["Celular"] = usuario.Celular;
-                if (erro != null)
+                if (usuario.Chave != null)
                 {
-                    if (erro.Equals("DataErrada"))
-                    { 
-                        ViewData["Erro"] = " Por favor, Insira a Data Correta e No Formato Informado!\n Para Mais informações Visite Nossa Documentação:\n" ;
+                    ViewData["Token"] = usuario.Chave.Token;
+                    ViewData["Nome"] = usuario.Nome;
+                    ViewData["Celular"] = usuario.Celular;
+                    if (erro != null)
+                    {
+                        if (erro.Equals("DataErrada"))
+                        {
+                            ViewData["Erro"] = " Por favor, Insira a Data Correta e No Formato Informado!\n Para Mais informações Visite Nossa Documentação:\n";
+                        }
                     }
-                }
 
-                return View();
+                    return View();
+                }
+                else {
+                    return LocalRedirect("~/Identity/Account/Login");
+                }
             }
             else
             {

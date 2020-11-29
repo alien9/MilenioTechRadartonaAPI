@@ -10,5 +10,7 @@ namespace MilenioRadartonaAPI.Models
         public int QtdMaxRequisicoes { get; set; }
         public string EmailAdministrador { get; set; }
         public string SenhaEmailAdministrador { get; set; }
+        public string connString { get; set; }
+
     }
 }

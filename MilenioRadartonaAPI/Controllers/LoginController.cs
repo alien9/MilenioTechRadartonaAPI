@@ -10,12 +10,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MilenioRadartonaAPI.Areas.Identity.Data;
 using MilenioRadartonaAPI.Context;
 using MilenioRadartonaAPI.DTO;
 using MilenioRadartonaAPI.Models;
 using MilenioRadartonaAPI.Token;
+
 using Service;
 
 namespace MilenioRadartonaAPI.Controllers
@@ -27,15 +29,16 @@ namespace MilenioRadartonaAPI.Controllers
 
         /*service*/
         private readonly IRadartonaService _serv;
-
+        private IOptions<MyConfig> _config;
         private readonly ApplicationContext _ctx;
         private readonly UserManager<MilenioRadartonaAPIUser> _userManager;
 
-        public LoginController(ApplicationContext ctx, UserManager<MilenioRadartonaAPIUser> userManager, IRadartonaService serv)
+        public LoginController(ApplicationContext ctx, UserManager<MilenioRadartonaAPIUser> userManager, IRadartonaService serv, IOptions<MyConfig> config)
         {
             _ctx = ctx;
             _userManager = userManager;
             _serv = serv;
+            _config = config;
         }
 
 
@@ -61,11 +64,12 @@ namespace MilenioRadartonaAPI.Controllers
                     .FindByNameAsync(email).Result;
                 if (userIdentity != null)
                 {
+                    var cu = userManager.PasswordValidators.Count();
+                    var passwordValidator = new PasswordValidator<IdentityUser>();
                     // Efetua o login com base no Id do usuário e sua senha
-                    var resultadoLogin = signInManager
-                        .CheckPasswordSignInAsync(userIdentity, senha, false)
+                    var resultadoLogin = userManager.CheckPasswordAsync(userIdentity, senha)
                         .Result;
-                    if (resultadoLogin.Succeeded)
+                    if (resultadoLogin != null)
                     {
                         // Verifica se o usuário em questão possui
                         // a role Acesso-APIAlturas
@@ -268,7 +272,7 @@ namespace MilenioRadartonaAPI.Controllers
 
         private async Task LogRequest(string Usuario, string Endpoint, long TempoRequisicao)
         {
-            await _serv.LogRequest(Usuario, Endpoint, TempoRequisicao);
+            await _serv.LogRequest(Usuario, Endpoint, TempoRequisicao, _config.Value.connString);
         }
     }
 }

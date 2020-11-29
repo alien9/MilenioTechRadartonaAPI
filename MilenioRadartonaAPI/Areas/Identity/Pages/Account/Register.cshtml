@@ -43,36 +43,6 @@
                 </div>
                 <hr>
             </form>
-            <form asp-route-returnUrl="@Model.ReturnUrl" method="post" style="display:none">
-                <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Input.Nome"></label>
-                    <input asp-for="Input.Nome" class="form-control" />
-                    <span asp-validation-for="Input.Nome" autocomplete="off"  class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.Email"></label>
-                    <input asp-for="Input.Email" class="form-control" />
-                    <span asp-validation-for="Input.Email" autocomplete="off"  class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.Celular"></label>
-                    <input asp-for="Input.Celular" id="celular" autocomplete="off"  class="form-control" />
-                    <span asp-validation-for="Input.Celular" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.Password"></label>
-                    <input asp-for="Input.Password" class="form-control" />
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.ConfirmPassword"></label>
-                    <input asp-for="Input.ConfirmPassword" class="form-control" />
-                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                </div>
-                <button type="submit" class="btn-dark border text-light w-100 p-3">Registrar Conta</button>
-            </form>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

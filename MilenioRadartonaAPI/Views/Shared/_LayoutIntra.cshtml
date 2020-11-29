@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
-<title>Dados de Radares - API</title>
+<title>intra - Dados de Radares - API</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/css/w3.css">
@@ -16,10 +16,10 @@
     <div class="w3-border">
         <div class="w3-bar w3-theme">
             <button class="w3-bar-item w3-button testbtn w3-padding-16" onclick="openCity(event,'perfil')" id="perfil-bt">Perfil</button>
-            <button class="w3-bar-item w3-button testbtn w3-padding-16" onclick="openCity(event,'token')" id="token-bt">Token</button>
             <button class="w3-bar-item w3-button testbtn w3-padding-16" onclick="openCity(event,'relatorios')" id="report-bt">Relatórios</button>
             <button class="w3-bar-item w3-button testbtn w3-padding-16" onclick="openCity(event,'locais')" id="locais-bt">Locais</button>
             <button class="w3-bar-item w3-button testbtn w3-padding-16" onclick="openCity(event, 'enquad')" id="enquad-bt">Enquadramento</button>
+            <button class="w3-bar-item w3-button testbtn w3-padding-16" onclick="getRid();window.location = '/Identity/Account/Logout';" id="logout-bt">Sair</button>
         </div>
         @RenderBody()
     </div>
@@ -112,6 +112,14 @@
                     elem.style.width = width + '%';
                     elem.innerHTML = width * 1 + '%';
                 }
+            }
+        }
+        function getRid() {
+            var cookies = document.cookie.split(";");
+            for (var i = 0; i < cookies.length; i++) {
+                var equals = cookies[i].indexOf("=");
+                var name = equals > -1 ? cookies[i].substr(0, equals) : cookies[i];
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
             }
         }
     </script>

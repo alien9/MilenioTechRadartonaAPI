@@ -16,11 +16,9 @@
     </header>
 
     <div class="w3-border">
-        <div class="w3-bar w3-theme">
-            <button class="w3-bar-item w3-button testbtn w3-padding-16" onclick="openCity(event,'inicio')">Apresentação</button>
-            <button class="w3-bar-item w3-button testbtn w3-padding-16" onclick="window.location='/Identity/Account/Register'">Base de Dados</button>
-            <button class="w3-bar-item w3-button testbtn w3-padding-16" onclick="openCity(event,'galeria')">Galeria</button>
-        </div>
+        <header class="w3-container w3-blue-grey">
+            <h2>&nbsp;</h2>
+        </header>
         @RenderBody()
 
         <!-- Footer -->
@@ -66,7 +64,8 @@
             }
 
             var mybtn = document.getElementsByClassName("testbtn")[0];
-            mybtn.click();
+            if(mybtn)
+                mybtn.click();
 
             // Accordions
             function myAccFunc(id) {
@@ -93,7 +92,8 @@
                 for (i = 0; i < x.length; i++) {
                     x[i].style.display = "none";
                 }
-                x[slideIndex - 1].style.display = "block";
+                if (x[slideIndex - 1])
+                    x[slideIndex - 1].style.display = "block";
             }
 
             showDivs(1);

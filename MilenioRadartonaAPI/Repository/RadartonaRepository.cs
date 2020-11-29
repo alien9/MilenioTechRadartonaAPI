@@ -29,7 +29,7 @@ namespace MilenioRadartonaAPI.Repository
         List<ViagensDTO> GetViagens(string dataConsulta, string[] Radares);
         List<DistanciaViagemDTO> GetDistanciaViagem(int radarInicio, int radarFinal);
 
-        Task LogRequest(string Usuario, string Endpoint, long TempoRequisicao);
+        Task LogRequest(string Usuario, string Endpoint, long TempoRequisicao, string connString);
 
 
         // ======= CSV =======
@@ -46,18 +46,22 @@ namespace MilenioRadartonaAPI.Repository
         byte[] GetViagensCSV(string DataConsulta, string[] Radares);
         byte[] GetDistanciaViagemCSV(int radarInicial, int radarFinal);
 
-        Task<int> QtdRequestsDia(string Usuario);
+        Task<int> QtdRequestsDia(string Usuario, string connString);
+        void setConnectionString(string c);
     }
 
 
     public class RadartonaRepository : IRadartonaRepository
     {
-        private static string connString = "Host=10.35.200.226;Port=5432;Username=smt_user;Password=smt_user;Database=radartona;";
-
+        private string connString = "Host=peganingas;Port=5432;Username=smt_user;Password=smt_user;Database=radartona;";// _configuration.GetValue<string>("Modules:ConnectionStrings:conexao"); // read logDb connection string example
         private readonly ApplicationContextCamadaVizualizacao _ctxView;
-
         private readonly ApplicationContext _ctx;
+        private readonly MyConfig _config;
 
+        public void setConnectionString(string c)
+        {
+            connString = c;
+        }
         public RadartonaRepository(ApplicationContextCamadaVizualizacao cxtView, ApplicationContext ctx)
         {
             _ctxView = cxtView;
@@ -408,7 +412,7 @@ namespace MilenioRadartonaAPI.Repository
 
 
         // ===== FUNCOES ========
-        public async Task LogRequest(string Usuario, string Endpoint, long TempoRequisicao)
+        public async Task LogRequest(string Usuario, string Endpoint, long TempoRequisicao, string connString)
         {
             using (Npgsql.NpgsqlConnection conn = new Npgsql.NpgsqlConnection(connString))
             {
@@ -424,7 +428,7 @@ namespace MilenioRadartonaAPI.Repository
             }
         }
 
-        public async Task<int> QtdRequestsDia(string Usuario)
+        public async Task<int> QtdRequestsDia(string Usuario, string connString)
         {
             int Requests = 0;
 

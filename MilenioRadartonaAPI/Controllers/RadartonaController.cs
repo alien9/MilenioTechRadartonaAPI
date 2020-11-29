@@ -27,9 +27,10 @@ namespace MilenioRadartonaAPI.Controllers
 
         public RadartonaController(IRadartonaService serv, IRadartonaRepository rep, IOptions<MyConfig> config)
         {
+            this._config = config;
             _serv = serv;
             _rep = rep;
-            this._config = config;
+            _rep.setConnectionString(config.Value.connString);
         }
 
         [HttpGet]
@@ -67,7 +68,7 @@ namespace MilenioRadartonaAPI.Controllers
 
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
-                    await LogRequest("/v1/GetRadaresTipoEnquadramento", TempoRequisicao);
+                    await LogRequest("/v1/GetRadaresTipoEnquadramento", TempoRequisicao, _config.Value.connString);
 
                     if (lstRetorno.Count == 0)
                     {
@@ -104,7 +105,7 @@ namespace MilenioRadartonaAPI.Controllers
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
 
-                    await LogRequest("/v1/GetRadaresLote", TempoRequisicao);
+                    await LogRequest("/v1/GetRadaresLote", TempoRequisicao, _config.Value.connString);
 
                     return Ok(lstRetorno);
                 }
@@ -137,7 +138,7 @@ namespace MilenioRadartonaAPI.Controllers
 
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
-                    await LogRequest("/v1/GetFluxoVeiculosRadares", TempoRequisicao);
+                    await LogRequest("/v1/GetFluxoVeiculosRadares", TempoRequisicao, _config.Value.connString);
 
                     return Ok(lstRetorno);
                 }
@@ -169,7 +170,7 @@ namespace MilenioRadartonaAPI.Controllers
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
 
-                    await LogRequest("/v1/GetTipoVeiculosRadares", TempoRequisicao);
+                    await LogRequest("/v1/GetTipoVeiculosRadares", TempoRequisicao, _config.Value.connString);
 
                     return Ok(lstRetorno);
                 }
@@ -202,7 +203,7 @@ namespace MilenioRadartonaAPI.Controllers
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
 
-                    await LogRequest("/v1/GetInfracoesRadares", TempoRequisicao);
+                    await LogRequest("/v1/GetInfracoesRadares", TempoRequisicao, _config.Value.connString);
 
                     return Ok(lstRetorno);
                 }
@@ -234,7 +235,7 @@ namespace MilenioRadartonaAPI.Controllers
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
 
-                    await LogRequest("/v1/GetAcuraciaIdentificacaoRadares", TempoRequisicao);
+                    await LogRequest("/v1/GetAcuraciaIdentificacaoRadares", TempoRequisicao, _config.Value.connString);
 
                     return Ok(lstRetorno);
                 }
@@ -267,7 +268,7 @@ namespace MilenioRadartonaAPI.Controllers
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
 
-                    await LogRequest("/v1/GetPerfilVelocidadesRadar", TempoRequisicao);
+                    await LogRequest("/v1/GetPerfilVelocidadesRadar", TempoRequisicao, _config.Value.connString);
 
                     return Ok(lstRetorno);
                 }
@@ -299,7 +300,7 @@ namespace MilenioRadartonaAPI.Controllers
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
 
-                    await LogRequest("/v1/GetTrajetos", TempoRequisicao);
+                    await LogRequest("/v1/GetTrajetos", TempoRequisicao, _config.Value.connString);
 
                     return Ok(lstRetorno);
                 }
@@ -331,7 +332,7 @@ namespace MilenioRadartonaAPI.Controllers
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
 
-                    await LogRequest("/v1/GetVelocidadeMediaTrajeto", TempoRequisicao);
+                    await LogRequest("/v1/GetVelocidadeMediaTrajeto", TempoRequisicao, _config.Value.connString);
 
                     return Ok(lstRetorno);
                 }
@@ -363,7 +364,7 @@ namespace MilenioRadartonaAPI.Controllers
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
 
-                    await LogRequest("/v1/GetViagens", TempoRequisicao);
+                    await LogRequest("/v1/GetViagens", TempoRequisicao, _config.Value.connString);
 
                     return Ok(lstRetorno);
                 }
@@ -396,7 +397,7 @@ namespace MilenioRadartonaAPI.Controllers
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
 
-                    await LogRequest("/v1/GetDistanciaViagem", TempoRequisicao);
+                    await LogRequest("/v1/GetDistanciaViagem", TempoRequisicao, _config.Value.connString);
 
                     return Ok(lstRetorno);
                 }
@@ -413,7 +414,7 @@ namespace MilenioRadartonaAPI.Controllers
         }
 
         // ====== FUNCOES ========
-        private async Task LogRequest(string Endpoint, long TempoRequisicao)
+        private async Task LogRequest(string Endpoint, long TempoRequisicao, string connString)
         {
             string Usuario = String.Empty;
             try
@@ -422,12 +423,13 @@ namespace MilenioRadartonaAPI.Controllers
             }
             catch { }
             
-            await _serv.LogRequest(Usuario, Endpoint, TempoRequisicao);
+            await _serv.LogRequest(Usuario, Endpoint, TempoRequisicao, connString);
         }
 
         private async Task<int> QtdRequestsDia()
         {
             string Usuario = String.Empty;
+            string connString = _config.Value.connString;
             try
             {
                 Usuario = User.Identity.Name;
@@ -435,7 +437,7 @@ namespace MilenioRadartonaAPI.Controllers
             catch { }
 
 
-            return await _serv.QtdRequestsDia(Usuario);
+            return await _serv.QtdRequestsDia(Usuario, connString);
         }
 
         private bool VerificaData(string data)
@@ -474,7 +476,7 @@ namespace MilenioRadartonaAPI.Controllers
                 watch.Stop();
                 var TempoRequisicao = watch.ElapsedMilliseconds;
 
-                await LogRequest("/v1/GetLocalizacaoRadaresCSV", TempoRequisicao);
+                await LogRequest("/v1/GetLocalizacaoRadaresCSV", TempoRequisicao, _config.Value.connString);
 
                 return result;
             }
@@ -499,7 +501,7 @@ namespace MilenioRadartonaAPI.Controllers
                 watch.Stop();
                 var TempoRequisicao = watch.ElapsedMilliseconds;
 
-                await LogRequest("/v1/GetRadaresTipoEnquadramentoCSV", TempoRequisicao);
+                await LogRequest("/v1/GetRadaresTipoEnquadramentoCSV", TempoRequisicao, _config.Value.connString);
 
                 return result;
             }
@@ -524,7 +526,7 @@ namespace MilenioRadartonaAPI.Controllers
                 watch.Stop();
                 var TempoRequisicao = watch.ElapsedMilliseconds;
 
-                await LogRequest("/v1/GetRadaresLoteCSV", TempoRequisicao);
+                await LogRequest("/v1/GetRadaresLoteCSV", TempoRequisicao, _config.Value.connString);
 
                 return result;
             }
@@ -556,7 +558,7 @@ namespace MilenioRadartonaAPI.Controllers
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
 
-                    await LogRequest("/v1/GetFluxoVeiculosRadaresCSV", TempoRequisicao);
+                    await LogRequest("/v1/GetFluxoVeiculosRadaresCSV", TempoRequisicao, _config.Value.connString);
 
                     return result;
 
@@ -591,7 +593,7 @@ namespace MilenioRadartonaAPI.Controllers
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
 
-                    await LogRequest("/v1/GetTipoVeiculosRadaresCSV", TempoRequisicao);
+                    await LogRequest("/v1/GetTipoVeiculosRadaresCSV", TempoRequisicao, _config.Value.connString);
 
                     return result;
                 }
@@ -626,7 +628,7 @@ namespace MilenioRadartonaAPI.Controllers
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
 
-                    await LogRequest("/v1/GetInfracoesRadaresCSV", TempoRequisicao);
+                    await LogRequest("/v1/GetInfracoesRadaresCSV", TempoRequisicao, _config.Value.connString);
 
                     return result;
                 }
@@ -661,7 +663,7 @@ namespace MilenioRadartonaAPI.Controllers
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
 
-                    await LogRequest("/v1/AcuraciaIdentificacaoRadaresCSV", TempoRequisicao);
+                    await LogRequest("/v1/AcuraciaIdentificacaoRadaresCSV", TempoRequisicao, _config.Value.connString);
 
                     return result;
                 }
@@ -687,7 +689,7 @@ namespace MilenioRadartonaAPI.Controllers
                 watch.Stop();
                 var TempoRequisicao = watch.ElapsedMilliseconds;
 
-                await LogRequest("/v1/GetPerfilVelocidadesRadarCSV", TempoRequisicao);
+                await LogRequest("/v1/GetPerfilVelocidadesRadarCSV", TempoRequisicao, _config.Value.connString);
 
                 return result;
             }
@@ -720,7 +722,7 @@ namespace MilenioRadartonaAPI.Controllers
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
 
-                    await LogRequest("/v1/GetTrajetosCSV", TempoRequisicao);
+                    await LogRequest("/v1/GetTrajetosCSV", TempoRequisicao, _config.Value.connString);
 
                     return result;
                 }
@@ -753,7 +755,7 @@ namespace MilenioRadartonaAPI.Controllers
 
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
-                    await LogRequest("/v1/GetVelocidadeMediaTrajetoCSV", TempoRequisicao);
+                    await LogRequest("/v1/GetVelocidadeMediaTrajetoCSV", TempoRequisicao, _config.Value.connString);
 
                     return result;
                 }
@@ -788,7 +790,7 @@ namespace MilenioRadartonaAPI.Controllers
 
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
-                    await LogRequest("/v1/GetViagensCSV", TempoRequisicao);
+                    await LogRequest("/v1/GetViagensCSV", TempoRequisicao, _config.Value.connString);
 
                     return result;
                 }
@@ -814,7 +816,7 @@ namespace MilenioRadartonaAPI.Controllers
 
                 watch.Stop();
                 var TempoRequisicao = watch.ElapsedMilliseconds;
-                await LogRequest("/v1/GetDistanciaViagemCSV", TempoRequisicao);
+                await LogRequest("/v1/GetDistanciaViagemCSV", TempoRequisicao, _config.Value.connString);
 
                 return result;
             }

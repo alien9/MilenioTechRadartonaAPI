@@ -26,7 +26,7 @@ namespace Service
         List<VelocidadeMediaTrajetoDTO> GetVelocidadeMediaTrajeto(string DataConsulta, string Radares);
         List<ViagensDTO> GetViagens(string DataConsulta, string Radares);
         List<DistanciaViagemDTO> GetDistanciaViagem(int radarInicial, int radarFinal);
-        Task LogRequest(string Usuario, string Endpoint, long TempoRequisicao);
+        Task LogRequest(string Usuario, string Endpoint, long TempoRequisicao, string connString);
 
         // ======= CSV =======
         byte[] GetLocalizacaoRadaresCSV();
@@ -42,7 +42,7 @@ namespace Service
         byte[] GetViagensCSV(string DataConsulta, string Radares);
         byte[] GetDistanciaViagemCSV(int radarInicial, int radarFinal);
 
-        Task<int> QtdRequestsDia(string Usuario);
+        Task<int> QtdRequestsDia(string Usuario, string connString);
     }
 
 
@@ -325,14 +325,14 @@ namespace Service
 
         // === FUNCOES
 
-        public async Task LogRequest(string Usuario, string Endpoint, long TempoRequisicao)
+        public async Task LogRequest(string Usuario, string Endpoint, long TempoRequisicao, string connString)
         {
-            await _rep.LogRequest(Usuario, Endpoint, TempoRequisicao);
+            await _rep.LogRequest(Usuario, Endpoint, TempoRequisicao,connString);
         }
 
-        public async Task<int> QtdRequestsDia(string Usuario)
+        public async Task<int> QtdRequestsDia(string Usuario, string connString)
         {
-            return await _rep.QtdRequestsDia(Usuario);
+            return await _rep.QtdRequestsDia(Usuario, connString);
         }
 
         // ======== CSV ======== 
