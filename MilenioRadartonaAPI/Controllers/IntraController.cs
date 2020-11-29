@@ -44,7 +44,8 @@ namespace MilenioRadartonaAPI.Controllers
             }
             else
             {
-                return Unauthorized();
+                return LocalRedirect("~/Identity/Account/Login");
+                   
             }
         }
 

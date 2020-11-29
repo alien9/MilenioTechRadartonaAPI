@@ -9,22 +9,33 @@
 
 
 <div id="perfil" class="w3-container city w3-animate-opacity">
-    <h2 class="text-center display-4 border-bottom mb-2 border-dark">Perfil</h2>
-    <form class="m-4">
-        <div class="form-group row">
-            <label for="email" class="w-25 mt-2 text-center float-left labelAzul col-sm-2 col-form-label">Nome</label>
+    <br>
+    <form class="w3-container w3-card-4">
+        <div class="w3-section">
             <div class="col-sm-10">
                 <input type="text" class="form-control-plaintext" id="nomePerfil" value="@(ViewData["nome"] as string)">
             </div>
+            <label for="email" class="w-25 mt-2 text-center float-left labelAzul col-sm-2 col-form-label">Nome</label>
         </div>
-        <div class="form-group row">
-            <label for="celular" class="w-25 mt-2 text-center float-left labelAzul col-sm-2 col-form-label">Celular</label>
+        <div class="w3-section">
             <div class="col-sm-10">
                 <input type="text" class="form-control-plaintext" id="celularPerfil" value="@(ViewData["celular"] as string)">
             </div>
+            <label for="celular" class="w-25 mt-2 text-center float-left labelAzul col-sm-2 col-form-label">Celular</label>
         </div>
+        <div class="w3-section">
+            <button id="mudaPerfil" class="w3-btn w3-theme btn w-100 mt-5 mb-2">Salvar Alterações</button>
+        </div>
+        <div class="w3-section">
+            <div style="float:right">
+                <button id="copiar" class="w3-btn w3-theme">Copiar</button>
+            </div>
+            <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">Token: @(ViewData["Token"] as string)</div>
+            <textarea id="token" style="display:none">@(ViewData["Token"] as string)</textarea>
+        </div>
+        <br>
     </form>
-    <button id="mudaPerfil" class="btn w-100 mt-5 mb-2 labelAzul">Salvar Alterações</button>
+    <br>
 </div>
 
 <div id="token" class="w3-container city w3-animate-opacity">
@@ -44,7 +55,7 @@
                     <td class="text-center" style="width: 450px!important;">
                         <textarea id="token" class="w-100">@(ViewData["Token"] as string)</textarea>
                     </td>
-                    <td class="text-center"><button id="copiar" class="btn btn-primary w-100"><span class="icon-file_copy" /></button></td>
+                    <td class="text-center"><button id="copiar1" class="btn btn-primary w-100"><span class="icon-file_copy" /></button></td>
                 </tr>
             </tbody>
         </table>
@@ -366,6 +377,7 @@
 
             /* Copy the text inside the text field */
             document.execCommand("copy");
+            alert('Copiado para a Área de Transferência');
         });
 
 
