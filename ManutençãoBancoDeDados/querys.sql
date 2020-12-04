@@ -3,20 +3,20 @@
 --  ************************************
 
 -- contagens
-CREATE INDEX contagens_data_e_hora_localidade ON public.contagens (localidade, data_e_hora);
-DROP INDEX contagens_data_e_hora_localidade
+CREATE INDEX contagens_data_e_hora_idx ON public.contagens (data_e_hora);
+CREATE INDEX contagens_localidade_idx ON public.contagens (localidade);
+--DROP INDEX contagens_data_e_hora_localidade
 
 -- BaseRadares
 CREATE INDEX BaseRadares_codigo ON public."BaseRadares" (codigo);
 
 -- trajetos
 -- t.viagem_id, "codigoRadarOrigem", "periodoDia", "codigoRadarDestino"
-CREATE INDEX trajetos_origem_destino ON public.trajetos (origem, destino, data_inicio);
+CREATE INDEX trajetos_origem_idx ON public.trajetos (origem);
+CREATE INDEX trajetos_destino_idx ON public.trajetos (destino);
+CREATE INDEX trajetos_data_idx ON public.trajetos (data_inicio);
 CREATE INDEX trajetos_proc ON public.trajetos (viagem_id, origem, destino);
-DROP INDEX trajetos_proc
-
-CREATE INDEX trajetos_origem_data_inicio ON public.trajetos (origem, data_inicio);
-CREATE INDEX trajetos_destino_data_inicio ON public.trajetos (destino, data_inicio);
+--DROP INDEX trajetos_proc
 
 -- viagens
 CREATE INDEX viagens_inicio_data_inicio ON public.viagens (inicio, data_inicio);
