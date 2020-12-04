@@ -63,9 +63,6 @@ namespace MilenioRadartonaAPI
         {
             // ===== Contexts do Postgres =====
 
-            //services.AddDbContext<ApplicationContext>(options =>
-            //    options.UseNpgsql(Configuration.GetConnectionString("conexao")));
-
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("postgres")));
 
@@ -81,8 +78,6 @@ namespace MilenioRadartonaAPI
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-            //services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("conexao")));
 
             services.AddTransient<IRadartonaService, RadartonaService>();
             services.AddTransient<IRadartonaRepository, RadartonaRepository>();
@@ -106,7 +101,7 @@ namespace MilenioRadartonaAPI
             /* token oauth identity configs */
 
             services.AddDbContext<MilenioRadartonaAPIContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("BaseIdentity")));
+                options.UseSqlServer(Configuration.GetConnectionString("postgres")));
 
             // Ativando a utilização do ASP.NET Identity, a fim de
             // permitir a recuperação de seus objetos via injeção de

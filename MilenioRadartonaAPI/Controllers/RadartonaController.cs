@@ -30,7 +30,6 @@ namespace MilenioRadartonaAPI.Controllers
             this._config = config;
             _serv = serv;
             _rep = rep;
-            _rep.setConnectionString(config.Value.connString);
         }
 
         [HttpGet]
@@ -64,7 +63,7 @@ namespace MilenioRadartonaAPI.Controllers
                 {
                     var watch = new Stopwatch();
                     watch.Start();
-                    List<BaseRadaresDTO> lstRetorno = _serv.GetRadaresTipoEnquadramento(enquadramento.ToUpper());
+                    List<BaseRadaresDTO> lstRetorno = _serv.GetRadaresTipoEnquadramento(enquadramento.ToUpper(), _config.Value.connString);
 
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
@@ -101,7 +100,7 @@ namespace MilenioRadartonaAPI.Controllers
                 {
                     var watch = new Stopwatch();
                     watch.Start();
-                    List<BaseRadaresDTO> lstRetorno = _serv.GetRadaresLote(lote);
+                    List<BaseRadaresDTO> lstRetorno = _serv.GetRadaresLote(lote, _config.Value.connString);
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
 
@@ -134,7 +133,7 @@ namespace MilenioRadartonaAPI.Controllers
                 {
                     var watch = new Stopwatch();
                     watch.Start();
-                    List<BaseRadaresJoinContagemDTO> lstRetorno = _serv.GetFluxoVeiculosRadares(radares, dataConsulta);
+                    List<BaseRadaresJoinContagemDTO> lstRetorno = _serv.GetFluxoVeiculosRadares(radares, dataConsulta, _config.Value.connString);
 
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
@@ -166,7 +165,7 @@ namespace MilenioRadartonaAPI.Controllers
                 {
                     var watch = new Stopwatch();
                     watch.Start();
-                    List<BaseRadaresJoinContagemPequenoDTO> lstRetorno = _serv.GetTipoVeiculosRadares(Radares, DataConsulta);
+                    List<BaseRadaresJoinContagemPequenoDTO> lstRetorno = _serv.GetTipoVeiculosRadares(Radares, DataConsulta, _config.Value.connString);
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
 
@@ -199,7 +198,7 @@ namespace MilenioRadartonaAPI.Controllers
                 {
                     var watch = new Stopwatch();
                     watch.Start();
-                    List<BaseRadaresJoinContagemPequenoDTO2> lstRetorno = _serv.GetInfracoesPorRadar(Radares, DataConsulta);
+                    List<BaseRadaresJoinContagemPequenoDTO2> lstRetorno = _serv.GetInfracoesPorRadar(Radares, DataConsulta, _config.Value.connString);
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
 
@@ -231,7 +230,7 @@ namespace MilenioRadartonaAPI.Controllers
                 {
                     var watch = new Stopwatch();
                     watch.Start();
-                    List<BaseRadaresJoinContagemPequenoDTO3> lstRetorno = _serv.GetAcuraciaIdentificacaoRadares(Radares, DataConsulta);
+                    List<BaseRadaresJoinContagemPequenoDTO3> lstRetorno = _serv.GetAcuraciaIdentificacaoRadares(Radares, DataConsulta, _config.Value.connString);
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
 
@@ -264,7 +263,7 @@ namespace MilenioRadartonaAPI.Controllers
                 {
                     var watch = new Stopwatch();
                     watch.Start();
-                    List<BaseRadaresDTO> lstRetorno = _serv.GetPerfilVelocidadesRadar(VelocidadeMin, VelocidadeMax);
+                    List<BaseRadaresDTO> lstRetorno = _serv.GetPerfilVelocidadesRadar(VelocidadeMin, VelocidadeMax, _config.Value.connString);
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
 
@@ -296,7 +295,7 @@ namespace MilenioRadartonaAPI.Controllers
                 {
                     var watch = new Stopwatch();
                     watch.Start();
-                    List<TrajetosDTO> lstRetorno = _serv.GetTrajetos(DataConsulta, Radares);
+                    List<TrajetosDTO> lstRetorno = _serv.GetTrajetos(DataConsulta, Radares, _config.Value.connString);
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
 
@@ -328,7 +327,7 @@ namespace MilenioRadartonaAPI.Controllers
                 {
                     var watch = new Stopwatch();
                     watch.Start();
-                    List<VelocidadeMediaTrajetoDTO> lstRetorno = _serv.GetVelocidadeMediaTrajeto(DataConsulta, Radares);
+                    List<VelocidadeMediaTrajetoDTO> lstRetorno = _serv.GetVelocidadeMediaTrajeto(DataConsulta, Radares, _config.Value.connString);
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
 
@@ -360,7 +359,7 @@ namespace MilenioRadartonaAPI.Controllers
                 {
                     var watch = new Stopwatch();
                     watch.Start();
-                    List<ViagensDTO> lstRetorno = _serv.GetViagens(DataConsulta, Radares);
+                    List<ViagensDTO> lstRetorno = _serv.GetViagens(DataConsulta, Radares, _config.Value.connString);
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
 
@@ -393,7 +392,7 @@ namespace MilenioRadartonaAPI.Controllers
                 {
                     var watch = new Stopwatch();
                     watch.Start();
-                    List<DistanciaViagemDTO> lstRetorno = _serv.GetDistanciaViagem(radarInicial, radarFinal);
+                    List<DistanciaViagemDTO> lstRetorno = _serv.GetDistanciaViagem(radarInicial, radarFinal, _config.Value.connString);
                     watch.Stop();
                     var TempoRequisicao = watch.ElapsedMilliseconds;
 
@@ -469,7 +468,7 @@ namespace MilenioRadartonaAPI.Controllers
             {
                 var watch = new Stopwatch();
                 watch.Start();
-                byte[] csv = _serv.GetLocalizacaoRadaresCSV();
+                byte[] csv = _serv.GetLocalizacaoRadaresCSV(_config.Value.connString);
                 var result = new FileContentResult(csv, "application/octet-stream");
                 result.FileDownloadName = "LocalizacaoRadares.csv";
 
@@ -494,7 +493,7 @@ namespace MilenioRadartonaAPI.Controllers
             {
                 var watch = new Stopwatch();
                 watch.Start();
-                byte[] csv = _serv.GetRadaresTipoEnquadramentoCSV(Enquadramento);
+                byte[] csv = _serv.GetRadaresTipoEnquadramentoCSV(Enquadramento, _config.Value.connString);
                 var result = new FileContentResult(csv, "application/octet-stream");
                 result.FileDownloadName = "RadaresTipoEnquadramento.csv";
 
@@ -519,7 +518,7 @@ namespace MilenioRadartonaAPI.Controllers
             {
                 var watch = new Stopwatch();
                 watch.Start();
-                byte[] csv = _serv.GetRadaresLoteCSV(lote);
+                byte[] csv = _serv.GetRadaresLoteCSV(lote, _config.Value.connString);
                 var result = new FileContentResult(csv, "application/octet-stream");
                 result.FileDownloadName = String.Format("RadaresLote{0}.csv", lote);
 
@@ -551,7 +550,7 @@ namespace MilenioRadartonaAPI.Controllers
                 {
                     var watch = new Stopwatch();
                     watch.Start();
-                    byte[] csv = _serv.GetFluxoVeiculosRadaresCSV(Radares, DataConsulta);
+                    byte[] csv = _serv.GetFluxoVeiculosRadaresCSV(Radares, DataConsulta, _config.Value.connString);
                     var result = new FileContentResult(csv, "application/octet-stream");
                     result.FileDownloadName = "FluxoVeiculosRadares.csv";
 
@@ -586,7 +585,7 @@ namespace MilenioRadartonaAPI.Controllers
                 {
                     var watch = new Stopwatch();
                     watch.Start();
-                    byte[] csv = _serv.GetTipoVeiculosRadaresCSV(Radares, DataConsulta);
+                    byte[] csv = _serv.GetTipoVeiculosRadaresCSV(Radares, DataConsulta, _config.Value.connString);
                     var result = new FileContentResult(csv, "application/octet-stream");
                     result.FileDownloadName = "TipoVeiculosRadares.csv";
 
@@ -621,7 +620,7 @@ namespace MilenioRadartonaAPI.Controllers
 
                     var watch = new Stopwatch();
                     watch.Start();
-                    byte[] csv = _serv.GetInfracoesPorRadarCSV(Radares, DataConsulta);
+                    byte[] csv = _serv.GetInfracoesPorRadarCSV(Radares, DataConsulta, _config.Value.connString);
                     var result = new FileContentResult(csv, "application/octet-stream");
                     result.FileDownloadName = "InfracoesRadares.csv";
 
@@ -656,7 +655,7 @@ namespace MilenioRadartonaAPI.Controllers
 
                     var watch = new Stopwatch();
                     watch.Start();
-                    byte[] csv = _serv.GetAcuraciaIdentificacaoRadaresCSV(Radares, DataConsulta);
+                    byte[] csv = _serv.GetAcuraciaIdentificacaoRadaresCSV(Radares, DataConsulta, _config.Value.connString);
                     var result = new FileContentResult(csv, "application/octet-stream");
                     result.FileDownloadName = "AcuraciaIdentificacaoRadares.csv";
 
@@ -682,7 +681,7 @@ namespace MilenioRadartonaAPI.Controllers
             {
                 var watch = new Stopwatch();
                 watch.Start();
-                byte[] csv = _serv.GetPerfilVelocidadesRadarCSV(VelocidadeMin, VelocidadeMax);
+                byte[] csv = _serv.GetPerfilVelocidadesRadarCSV(VelocidadeMin, VelocidadeMax, _config.Value.connString);
                 var result = new FileContentResult(csv, "application/octet-stream");
                 result.FileDownloadName = "PerfilVelocidadesRadar.csv";
 
@@ -715,7 +714,7 @@ namespace MilenioRadartonaAPI.Controllers
                 {
                     var watch = new Stopwatch();
                     watch.Start();
-                    byte[] csv = _serv.GetTrajetosCSV(DataConsulta, Radares);
+                    byte[] csv = _serv.GetTrajetosCSV(DataConsulta, Radares, _config.Value.connString);
                     var result = new FileContentResult(csv, "application/octet-stream");
                     result.FileDownloadName = "Trajetos.csv";
 
@@ -749,7 +748,7 @@ namespace MilenioRadartonaAPI.Controllers
                 {
                     var watch = new Stopwatch();
                     watch.Start();
-                    byte[] csv = _serv.GetVelocidadeMediaTrajetoCSV(DataConsulta, Radares);
+                    byte[] csv = _serv.GetVelocidadeMediaTrajetoCSV(DataConsulta, Radares, _config.Value.connString);
                     var result = new FileContentResult(csv, "application/octet-stream");
                     result.FileDownloadName = "VelocidadeMediaTrajeto.csv";
 
@@ -784,7 +783,7 @@ namespace MilenioRadartonaAPI.Controllers
                 {
                     var watch = new Stopwatch();
                     watch.Start();
-                    byte[] csv = _serv.GetViagensCSV(DataConsulta, Radares);
+                    byte[] csv = _serv.GetViagensCSV(DataConsulta, Radares, _config.Value.connString);
                     var result = new FileContentResult(csv, "application/octet-stream");
                     result.FileDownloadName = "GetViagens.csv";
 
@@ -810,7 +809,7 @@ namespace MilenioRadartonaAPI.Controllers
             {
                 var watch = new Stopwatch();
                 watch.Start();
-                byte[] csv = _serv.GetDistanciaViagemCSV(radarInicial, radarFinal);
+                byte[] csv = _serv.GetDistanciaViagemCSV(radarInicial, radarFinal, _config.Value.connString);
                 var result = new FileContentResult(csv, "application/octet-stream");
                 result.FileDownloadName = "GetDistanciaViagem.csv";
 
